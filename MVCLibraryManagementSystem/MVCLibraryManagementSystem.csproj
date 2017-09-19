@@ -38,6 +38,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -80,19 +88,85 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Site.css" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AccessionRegistersController.cs" />
+    <Compile Include="Controllers\BooksController.cs" />
+    <Compile Include="DAL\LibraryContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709190536586_Initial.cs" />
+    <Compile Include="Migrations\201709190536586_Initial.Designer.cs">
+      <DependentUpon>201709190536586_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709190558020_AddItemToBook.cs" />
+    <Compile Include="Migrations\201709190558020_AddItemToBook.Designer.cs">
+      <DependentUpon>201709190558020_AddItemToBook.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709190602032_ChangeDbName.cs" />
+    <Compile Include="Migrations\201709190602032_ChangeDbName.Designer.cs">
+      <DependentUpon>201709190602032_ChangeDbName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709190637461_AddOtherItems.cs" />
+    <Compile Include="Migrations\201709190637461_AddOtherItems.Designer.cs">
+      <DependentUpon>201709190637461_AddOtherItems.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709191042030_AddIssuedItemMemberAndAccRegister.cs" />
+    <Compile Include="Migrations\201709191042030_AddIssuedItemMemberAndAccRegister.Designer.cs">
+      <DependentUpon>201709191042030_AddIssuedItemMemberAndAccRegister.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709191044153_AddIssuedItemMemberAndAccRegisterReal.cs" />
+    <Compile Include="Migrations\201709191044153_AddIssuedItemMemberAndAccRegisterReal.Designer.cs">
+      <DependentUpon>201709191044153_AddIssuedItemMemberAndAccRegisterReal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\AccessionRegister.cs" />
+    <Compile Include="Models\Book.cs" />
+    <Compile Include="Models\IssuedItem.cs" />
+    <Compile Include="Models\Item.cs" />
+    <Compile Include="Models\Member.cs" />
+    <Compile Include="Models\Newspaper.cs" />
+    <Compile Include="Models\QuestionPaper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
     <Content Include="packages.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Books\Create.cshtml" />
+    <Content Include="Views\Books\Delete.cshtml" />
+    <Content Include="Views\Books\Details.cshtml" />
+    <Content Include="Views\Books\Edit.cshtml" />
+    <Content Include="Views\Books\Index.cshtml" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\AccessionRegisters\Create.cshtml" />
+    <Content Include="Views\AccessionRegisters\Delete.cshtml" />
+    <Content Include="Views\AccessionRegisters\Details.cshtml" />
+    <Content Include="Views\AccessionRegisters\Edit.cshtml" />
+    <Content Include="Views\AccessionRegisters\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -102,8 +176,26 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\" />
-    <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201709190536586_Initial.resx">
+      <DependentUpon>201709190536586_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709190558020_AddItemToBook.resx">
+      <DependentUpon>201709190558020_AddItemToBook.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709190602032_ChangeDbName.resx">
+      <DependentUpon>201709190602032_ChangeDbName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709190637461_AddOtherItems.resx">
+      <DependentUpon>201709190637461_AddOtherItems.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709191042030_AddIssuedItemMemberAndAccRegister.resx">
+      <DependentUpon>201709191042030_AddIssuedItemMemberAndAccRegister.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709191044153_AddIssuedItemMemberAndAccRegisterReal.resx">
+      <DependentUpon>201709191044153_AddIssuedItemMemberAndAccRegisterReal.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
