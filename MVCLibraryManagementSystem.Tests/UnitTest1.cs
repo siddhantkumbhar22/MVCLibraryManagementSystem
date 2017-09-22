@@ -30,7 +30,7 @@ namespace MVCLibraryManagementSystem.Tests
         {
             BooksController controller = new BooksController();
 
-            Book b = new Book() { Item = new Item() { Title = "TestBook", Year = 1989 }, BookType = BOOKTYPES.FICTION, Author = "TestAuthor" };
+            
 
             var result = controller.Create(b);
 

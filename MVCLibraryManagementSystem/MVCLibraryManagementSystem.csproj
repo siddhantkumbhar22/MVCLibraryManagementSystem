@@ -38,6 +38,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=4.2.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.4.2.1\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -110,6 +114,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\AutoMapperConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccessionRegistersController.cs" />
     <Compile Include="Controllers\BooksController.cs" />
@@ -141,6 +146,10 @@
     <Compile Include="Migrations\201709191044153_AddIssuedItemMemberAndAccRegisterReal.Designer.cs">
       <DependentUpon>201709191044153_AddIssuedItemMemberAndAccRegisterReal.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709221706334_IsBooked.cs" />
+    <Compile Include="Migrations\201709221706334_IsBooked.Designer.cs">
+      <DependentUpon>201709221706334_IsBooked.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccessionRegister.cs" />
     <Compile Include="Models\Book.cs" />
@@ -150,6 +159,7 @@
     <Compile Include="Models\Newspaper.cs" />
     <Compile Include="Models\QuestionPaper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\BookViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -195,6 +205,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201709191044153_AddIssuedItemMemberAndAccRegisterReal.resx">
       <DependentUpon>201709191044153_AddIssuedItemMemberAndAccRegisterReal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709221706334_IsBooked.resx">
+      <DependentUpon>201709221706334_IsBooked.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

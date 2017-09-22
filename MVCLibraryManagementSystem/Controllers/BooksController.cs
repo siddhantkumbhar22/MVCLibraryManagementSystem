@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using MVCLibraryManagementSystem.DAL;
 using MVCLibraryManagementSystem.Models;
+using MVCLibraryManagementSystem.ViewModels;
+using AutoMapper;
 
 namespace MVCLibraryManagementSystem.Controllers
 {
@@ -40,15 +42,19 @@ namespace MVCLibraryManagementSystem.Controllers
         public ActionResult Create()
         {
             return View();
-        }
+        } 
 
         // POST: Books/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // CREATE IS HERE YOU STUPID MORON!
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="Item,Author")] Book book)
+
+        public ActionResult Create(BookViewModel bookinput)
         {
+
+            Book book = Mapper.Map<BookViewModel, Book>(bookinput);
+
             if (ModelState.IsValid)
             {
                 db.Books.Add(book);
