@@ -111,38 +111,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\AccessionRegistersController.cs" />
     <Compile Include="Controllers\BooksController.cs" />
     <Compile Include="DAL\LibraryContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201709190536586_Initial.cs" />
-    <Compile Include="Migrations\201709190536586_Initial.Designer.cs">
-      <DependentUpon>201709190536586_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709190558020_AddItemToBook.cs" />
-    <Compile Include="Migrations\201709190558020_AddItemToBook.Designer.cs">
-      <DependentUpon>201709190558020_AddItemToBook.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709190602032_ChangeDbName.cs" />
-    <Compile Include="Migrations\201709190602032_ChangeDbName.Designer.cs">
-      <DependentUpon>201709190602032_ChangeDbName.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709190637461_AddOtherItems.cs" />
-    <Compile Include="Migrations\201709190637461_AddOtherItems.Designer.cs">
-      <DependentUpon>201709190637461_AddOtherItems.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709191042030_AddIssuedItemMemberAndAccRegister.cs" />
-    <Compile Include="Migrations\201709191042030_AddIssuedItemMemberAndAccRegister.Designer.cs">
-      <DependentUpon>201709191042030_AddIssuedItemMemberAndAccRegister.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709191044153_AddIssuedItemMemberAndAccRegisterReal.cs" />
-    <Compile Include="Migrations\201709191044153_AddIssuedItemMemberAndAccRegisterReal.Designer.cs">
-      <DependentUpon>201709191044153_AddIssuedItemMemberAndAccRegisterReal.cs</DependentUpon>
+    <Compile Include="Migrations\201709241006051_justwork.cs" />
+    <Compile Include="Migrations\201709241006051_justwork.Designer.cs">
+      <DependentUpon>201709241006051_justwork.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\AccessionRegister.cs" />
     <Compile Include="Models\Book.cs" />
     <Compile Include="Models\IssuedItem.cs" />
     <Compile Include="Models\Item.cs" />
@@ -162,11 +140,6 @@
     <Content Include="Views\Books\Edit.cshtml" />
     <Content Include="Views\Books\Index.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
-    <Content Include="Views\AccessionRegisters\Create.cshtml" />
-    <Content Include="Views\AccessionRegisters\Delete.cshtml" />
-    <Content Include="Views\AccessionRegisters\Details.cshtml" />
-    <Content Include="Views\AccessionRegisters\Edit.cshtml" />
-    <Content Include="Views\AccessionRegisters\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -178,23 +151,8 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201709190536586_Initial.resx">
-      <DependentUpon>201709190536586_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709190558020_AddItemToBook.resx">
-      <DependentUpon>201709190558020_AddItemToBook.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709190602032_ChangeDbName.resx">
-      <DependentUpon>201709190602032_ChangeDbName.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709190637461_AddOtherItems.resx">
-      <DependentUpon>201709190637461_AddOtherItems.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709191042030_AddIssuedItemMemberAndAccRegister.resx">
-      <DependentUpon>201709191042030_AddIssuedItemMemberAndAccRegister.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709191044153_AddIssuedItemMemberAndAccRegisterReal.resx">
-      <DependentUpon>201709191044153_AddIssuedItemMemberAndAccRegisterReal.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201709241006051_justwork.resx">
+      <DependentUpon>201709241006051_justwork.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -47,7 +47,7 @@ namespace MVCLibraryManagementSystem.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="Item,Author")] Book book)
+        public ActionResult Create([Bind(Exclude="BookId")] Book book)
         {
             if (ModelState.IsValid)
             {
@@ -79,7 +79,7 @@ namespace MVCLibraryManagementSystem.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "BookId,Author,BookType")] Book book)
+        public ActionResult Edit(Book book)
         {
             if (ModelState.IsValid)
             {
