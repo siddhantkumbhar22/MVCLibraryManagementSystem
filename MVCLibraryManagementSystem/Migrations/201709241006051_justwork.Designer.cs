@@ -7,13 +7,13 @@ namespace MVCLibraryManagementSystem.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class AddIssuedItemMemberAndAccRegisterReal : IMigrationMetadata
+    public sealed partial class justwork : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddIssuedItemMemberAndAccRegisterReal));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(justwork));
         
         string IMigrationMetadata.Id
         {
-            get { return "201709191044153_AddIssuedItemMemberAndAccRegisterReal"; }
+            get { return "201709241006051_justwork"; }
         }
         
         string IMigrationMetadata.Source

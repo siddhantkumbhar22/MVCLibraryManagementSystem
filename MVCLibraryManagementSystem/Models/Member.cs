@@ -7,8 +7,8 @@ namespace MVCLibraryManagementSystem.Models
 {
     public enum MEMBERTYPE
     {
-        Faculty,
-        Student
+        FACULTY,
+        STUDENT
     }
     public class Member
     {

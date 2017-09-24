@@ -49,8 +49,8 @@ namespace MVCLibraryManagementSystem.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         // CREATE IS HERE YOU STUPID MORON!
         [HttpPost]
-
-        public ActionResult Create(BookViewModel bookinput)
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Exclude="BookId")] Book book)
         {
 
             Book book = Mapper.Map<BookViewModel, Book>(bookinput);
@@ -85,7 +85,7 @@ namespace MVCLibraryManagementSystem.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "BookId,Author,BookType")] Book book)
+        public ActionResult Edit(Book book)
         {
             if (ModelState.IsValid)
             {
