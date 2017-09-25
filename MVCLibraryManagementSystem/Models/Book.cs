@@ -6,8 +6,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MVCLibraryManagementSystem.Models
 {
-    
-
     public enum BOOKTYPES
     {
         TEXTBOOK,

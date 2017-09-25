@@ -11,8 +11,6 @@ namespace MVCLibraryManagementSystem.Models
         public int ItemId { get; set; }
         [Required]
         public string Title { get; set; }
-        [Range(0, 2015)]
         public int Year { get; set; }
-        public bool IsBooked { get; set; }
     }
 }

@@ -8,115 +8,110 @@ using System.Web;
 using System.Web.Mvc;
 using MVCLibraryManagementSystem.DAL;
 using MVCLibraryManagementSystem.Models;
-using MVCLibraryManagementSystem.ViewModels;
-using AutoMapper;
 
 namespace MVCLibraryManagementSystem.Controllers
 {
-    public class BooksController : Controller
+    public class MembersController : Controller
     {
         private LibraryContext db = new LibraryContext();
 
-        // GET: Books
+        // GET: Members
         public ActionResult Index()
         {
-            var books = db.Books.ToList();
-            
-            return View(books);
+            return View(db.Members.ToList());
         }
 
-        // GET: Books/Details/5
+        // GET: Members/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Book book = db.Books.Find(id);
-            if (book == null)
+            Member member = db.Members.Find(id);
+            if (member == null)
             {
                 return HttpNotFound();
             }
-            return View(book);
+            return View(member);
         }
 
-        // GET: Books/Create
+        // GET: Members/Create
         public ActionResult Create()
         {
             return View();
-        } 
+        }
 
-        // POST: Books/Create
+        // POST: Members/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        // CREATE IS HERE YOU STUPID MORON!
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Exclude="BookId")] Book book)
+        public ActionResult Create([Bind(Include = "MemberId,Name,MemberType")] Member member)
         {
             if (ModelState.IsValid)
             {
-                db.Books.Add(book);
+                db.Members.Add(member);
                 db.SaveChanges();
-                return RedirectToAction("Details", new { id = book.BookId });
+                return RedirectToAction("Index");
             }
 
-            return View(book);
+            return View(member);
         }
 
-        // GET: Books/Edit/5
+        // GET: Members/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Book book = db.Books.Find(id);
-            if (book == null)
+            Member member = db.Members.Find(id);
+            if (member == null)
             {
                 return HttpNotFound();
             }
-            return View(book);
+            return View(member);
         }
 
-        // POST: Books/Edit/5
+        // POST: Members/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Book book)
+        public ActionResult Edit([Bind(Include = "MemberId,Name,MemberType")] Member member)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(book).State = EntityState.Modified;
+                db.Entry(member).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(book);
+            return View(member);
         }
 
-        // GET: Books/Delete/5
+        // GET: Members/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Book book = db.Books.Find(id);
-            if (book == null)
+            Member member = db.Members.Find(id);
+            if (member == null)
             {
                 return HttpNotFound();
             }
-            return View(book);
+            return View(member);
         }
 
-        // POST: Books/Delete/5
+        // POST: Members/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Book book = db.Books.Find(id);
-            db.Books.Remove(book);
+            Member member = db.Members.Find(id);
+            db.Members.Remove(member);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

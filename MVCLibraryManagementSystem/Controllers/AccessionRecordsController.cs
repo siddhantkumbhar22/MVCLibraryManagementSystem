@@ -8,115 +8,111 @@ using System.Web;
 using System.Web.Mvc;
 using MVCLibraryManagementSystem.DAL;
 using MVCLibraryManagementSystem.Models;
-using MVCLibraryManagementSystem.ViewModels;
-using AutoMapper;
 
 namespace MVCLibraryManagementSystem.Controllers
 {
-    public class BooksController : Controller
+    public class AccessionRecordsController : Controller
     {
         private LibraryContext db = new LibraryContext();
 
-        // GET: Books
+        // GET: AccessionRecords
         public ActionResult Index()
         {
-            var books = db.Books.ToList();
-            
-            return View(books);
+            return View(db.AccessionRecords.ToList());
         }
 
-        // GET: Books/Details/5
+        // GET: AccessionRecords/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Book book = db.Books.Find(id);
-            if (book == null)
+            AccessionRecord accessionRecord = db.AccessionRecords.Find(id);
+            if (accessionRecord == null)
             {
                 return HttpNotFound();
             }
-            return View(book);
+            return View(accessionRecord);
         }
 
-        // GET: Books/Create
-        public ActionResult Create()
+        // GET: AccessionRecords/Create
+        public ActionResult Create(int? itemid)
         {
+            ViewBag.Item = db.Items.Where(d => d.ItemId == itemid).First();
             return View();
-        } 
+        }
 
-        // POST: Books/Create
+        // POST: AccessionRecords/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        // CREATE IS HERE YOU STUPID MORON!
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Exclude="BookId")] Book book)
+        public ActionResult Create([Bind(Include = "AccessionRecordId,DateOfReceipt,Source,Price,Item")] AccessionRecord accessionRecord)
         {
             if (ModelState.IsValid)
             {
-                db.Books.Add(book);
+                db.AccessionRecords.Add(accessionRecord);
                 db.SaveChanges();
-                return RedirectToAction("Details", new { id = book.BookId });
+                return RedirectToAction("Index");
             }
 
-            return View(book);
+            return View(accessionRecord);
         }
 
-        // GET: Books/Edit/5
+        // GET: AccessionRecords/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Book book = db.Books.Find(id);
-            if (book == null)
+            AccessionRecord accessionRecord = db.AccessionRecords.Find(id);
+            if (accessionRecord == null)
             {
                 return HttpNotFound();
             }
-            return View(book);
+            return View(accessionRecord);
         }
 
-        // POST: Books/Edit/5
+        // POST: AccessionRecords/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Book book)
+        public ActionResult Edit([Bind(Include = "AccessionRecordId,DateOfReceipt,Source,Price")] AccessionRecord accessionRecord)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(book).State = EntityState.Modified;
+                db.Entry(accessionRecord).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(book);
+            return View(accessionRecord);
         }
 
-        // GET: Books/Delete/5
+        // GET: AccessionRecords/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Book book = db.Books.Find(id);
-            if (book == null)
+            AccessionRecord accessionRecord = db.AccessionRecords.Find(id);
+            if (accessionRecord == null)
             {
                 return HttpNotFound();
             }
-            return View(book);
+            return View(accessionRecord);
         }
 
-        // POST: Books/Delete/5
+        // POST: AccessionRecords/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Book book = db.Books.Find(id);
-            db.Books.Remove(book);
+            AccessionRecord accessionRecord = db.AccessionRecords.Find(id);
+            db.AccessionRecords.Remove(accessionRecord);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
