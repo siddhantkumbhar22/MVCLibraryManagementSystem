@@ -13,12 +13,21 @@ namespace MVCLibraryManagementSystem.Controllers
 {
     public class AccessionRecordsController : Controller
     {
-        private LibraryContext db = new LibraryContext();
+        private IAccessionRecordService service;
+        public AccessionRecordsController()
+        {
+            this.service = new AccessionRecordService();
+        }
+
+        public AccessionRecordsController(IAccessionRecordService _serv)
+        {
+            this.service = _serv;
+        }
 
         // GET: AccessionRecords
         public ActionResult Index()
         {
-            return View(db.AccessionRecords.ToList());
+            return View(service.GetAllAccessionRecords().ToList());
         }
 
         // GET: AccessionRecords/Details/5
@@ -28,7 +37,7 @@ namespace MVCLibraryManagementSystem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AccessionRecord accessionRecord = db.AccessionRecords.Find(id);
+            AccessionRecord accessionRecord = service.GetAccessionRecordById(id);
             if (accessionRecord == null)
             {
                 return HttpNotFound();
@@ -39,24 +48,31 @@ namespace MVCLibraryManagementSystem.Controllers
         // GET: AccessionRecords/Create
         public ActionResult Create(int? itemid)
         {
-            ViewBag.Item = db.Items.Where(d => d.ItemId == itemid).First();
-            return View();
+            AccessionRecord newRecord = new AccessionRecord();
+            if(itemid == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Item item = service.GetItemService().GetItemById(itemid);
+            newRecord.Item = item;
+            newRecord.DateOfReceipt = DateTime.Now.Date;
+            return View(newRecord);
         }
 
         // POST: AccessionRecords/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "AccessionRecordId,DateOfReceipt,Source,Price,Item")] AccessionRecord accessionRecord)
+        [ValidateAntiForgeryToken]  
+        public ActionResult Create(AccessionRecord accessionRecord)
         {
+            
             if (ModelState.IsValid)
             {
-                db.AccessionRecords.Add(accessionRecord);
-                db.SaveChanges();
+                service.Add(accessionRecord);
                 return RedirectToAction("Index");
             }
-
+            
             return View(accessionRecord);
         }
 
@@ -67,7 +83,7 @@ namespace MVCLibraryManagementSystem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AccessionRecord accessionRecord = db.AccessionRecords.Find(id);
+            AccessionRecord accessionRecord = service.GetAccessionRecordById(id);
             if (accessionRecord == null)
             {
                 return HttpNotFound();
@@ -84,8 +100,7 @@ namespace MVCLibraryManagementSystem.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(accessionRecord).State = EntityState.Modified;
-                db.SaveChanges();
+                service.Update(accessionRecord);
                 return RedirectToAction("Index");
             }
             return View(accessionRecord);
@@ -98,7 +113,7 @@ namespace MVCLibraryManagementSystem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AccessionRecord accessionRecord = db.AccessionRecords.Find(id);
+            AccessionRecord accessionRecord = service.GetAccessionRecordById(id);
             if (accessionRecord == null)
             {
                 return HttpNotFound();
@@ -111,9 +126,7 @@ namespace MVCLibraryManagementSystem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            AccessionRecord accessionRecord = db.AccessionRecords.Find(id);
-            db.AccessionRecords.Remove(accessionRecord);
-            db.SaveChanges();
+            service.Delete(id);
             return RedirectToAction("Index");
         }
 
@@ -121,7 +134,7 @@ namespace MVCLibraryManagementSystem.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                service.Dispose();
             }
             base.Dispose(disposing);
         }

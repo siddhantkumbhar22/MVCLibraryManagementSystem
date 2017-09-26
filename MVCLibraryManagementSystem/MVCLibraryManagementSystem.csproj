@@ -119,6 +119,12 @@
     <Compile Include="Controllers\AccessionRecordsController.cs" />
     <Compile Include="Controllers\BooksController.cs" />
     <Compile Include="Controllers\MembersController.cs" />
+    <Compile Include="DAL\AccessionRecordService.cs" />
+    <Compile Include="DAL\BookService.cs" />
+    <Compile Include="DAL\IAccessionRecordService.cs" />
+    <Compile Include="DAL\IBookService.cs" />
+    <Compile Include="DAL\IItemService.cs" />
+    <Compile Include="DAL\ItemService.cs" />
     <Compile Include="DAL\LibraryContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

@@ -14,10 +14,11 @@ namespace MVCLibraryManagementSystem.Tests
     {
 
         // This is why Repos are needed, so that we don't access this directly
+        // and we can mock data whenever we need to.
         private LibraryContext context = new LibraryContext();
 
         /// <summary>
-        /// By default the Book Index view doesn't list items. This makes sure it does
+        /// By default the AccessionRecords Index view doesn't list items. This makes sure it does
         /// </summary>
         [TestMethod]
         public void TestBookIndexHasItems()
@@ -59,7 +60,6 @@ namespace MVCLibraryManagementSystem.Tests
             // IEnumerable<AccessionRecord> recordsReturned = (IEnumerable<AccessionRecord>)viewResult.Model;
 
             // Assert.AreEqual(10, recordsReturned.Count);
-
         }
     }
 }

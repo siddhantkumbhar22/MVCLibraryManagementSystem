@@ -15,13 +15,23 @@ namespace MVCLibraryManagementSystem.Controllers
 {
     public class BooksController : Controller
     {
-        private LibraryContext db = new LibraryContext();
+        private IBookService service;
+
+        public BooksController()
+        {
+            this.service = new BookService(new LibraryContext());
+        }
+
+        public BooksController(IBookService _serv)
+        {
+            this.service = _serv;
+        }
 
         // GET: Books
         public ActionResult Index()
         {
-            var books = db.Books.ToList();
-            
+            var books = service.GetAllBooks();
+
             return View(books);
         }
 
@@ -32,7 +42,7 @@ namespace MVCLibraryManagementSystem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Book book = db.Books.Find(id);
+            Book book = service.GetBookById(id);
             if (book == null)
             {
                 return HttpNotFound();
@@ -56,8 +66,7 @@ namespace MVCLibraryManagementSystem.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Books.Add(book);
-                db.SaveChanges();
+                service.Add(book);
                 return RedirectToAction("Details", new { id = book.BookId });
             }
 
@@ -71,7 +80,7 @@ namespace MVCLibraryManagementSystem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Book book = db.Books.Find(id);
+            Book book = service.GetBookById(id);
             if (book == null)
             {
                 return HttpNotFound();
@@ -88,8 +97,7 @@ namespace MVCLibraryManagementSystem.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(book).State = EntityState.Modified;
-                db.SaveChanges();
+                service.Update(book);
                 return RedirectToAction("Index");
             }
             return View(book);
@@ -102,7 +110,7 @@ namespace MVCLibraryManagementSystem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Book book = db.Books.Find(id);
+            Book book = service.GetBookById(id);
             if (book == null)
             {
                 return HttpNotFound();
@@ -115,9 +123,7 @@ namespace MVCLibraryManagementSystem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Book book = db.Books.Find(id);
-            db.Books.Remove(book);
-            db.SaveChanges();
+            service.Delete(id);
             return RedirectToAction("Index");
         }
 
@@ -125,7 +131,7 @@ namespace MVCLibraryManagementSystem.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                service.Dispose();
             }
             base.Dispose(disposing);
         }
