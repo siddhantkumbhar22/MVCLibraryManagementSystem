@@ -96,7 +96,7 @@ namespace MVCLibraryManagementSystem.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "AccessionRecordId,DateOfReceipt,Source,Price")] AccessionRecord accessionRecord)
+        public ActionResult Edit(AccessionRecord accessionRecord)
         {
             if (ModelState.IsValid)
             {

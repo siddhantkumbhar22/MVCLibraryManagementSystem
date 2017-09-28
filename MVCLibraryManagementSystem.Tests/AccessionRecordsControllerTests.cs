@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MVCLibraryManagementSystem.Models;
 using MVCLibraryManagementSystem.DAL;
 using MVCLibraryManagementSystem.Controllers;
+using Moq;
 
 namespace MVCLibraryManagementSystem.Tests
 {
@@ -36,6 +37,39 @@ namespace MVCLibraryManagementSystem.Tests
         }
 
         /// <summary>
+        /// An Accession Record cannot be created for an Item that doesn't exist. Therefore a new Accession Record must
+        /// already have an Item associated with it. This makes sure that the Create GET action method takes an ItemId.
+        /// This test will not compile otherwise.
+        /// </summary>
+        [TestMethod]
+        public void TestCreateTakesItemId()
+        {
+            var mock = new Mock<IAccessionRecordService>();
+            mock.Setup(m => m.GetItemService().GetItemById(It.IsAny<Int32>())).Returns(new Item{ Title = "Test", ItemId = 1});
+
+            AccessionRecordsController controller = new AccessionRecordsController(mock.Object);
+            var result = controller.Create(itemid: 1);
+        }
+
+        /// <summary>
+        /// Make sure that when a Create View is called with ItemId, that item id is added to the model that will be created.
+        /// See documentation for TestCreateTakesItemId() for more details.
+        /// </summary>
+        [TestMethod]
+        public void TestCreateHasProperModel()
+        {
+            var mock = new Mock<IAccessionRecordService>();
+            mock.Setup(m => m.GetItemService().GetItemById(It.IsAny<Int32>())).Returns(new Item { Title = "Test", ItemId = 1 });
+
+            AccessionRecordsController controller = new AccessionRecordsController(mock.Object);
+            var result = controller.Create(1) as ViewResult;
+            var newRecord = result.Model as AccessionRecord;
+
+            Assert.IsNotNull(newRecord.Item);
+            Assert.IsNotNull(newRecord.DateOfReceipt);
+        }
+
+        /// <summary>
         /// This code will not compile, however it needs to because Index neads a search searchString
         /// </summary>
         [TestMethod]
@@ -61,5 +95,6 @@ namespace MVCLibraryManagementSystem.Tests
 
             // Assert.AreEqual(10, recordsReturned.Count);
         }
+
     }
 }
