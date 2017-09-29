@@ -116,18 +116,19 @@ namespace MVCLibraryManagementSystem.Tests
         [TestMethod]
         public void TestIssuedItemModelValidation()
         {
-            IssuedItem item = new IssuedItem()
+            Item item = new Item { Title = "Item To issue", ItemId = 1};
+            IssuedItem issuedItem = new IssuedItem()
             {
-                LateFeePerDay = 0,
+                LateFeePerDay = 0
             };
 
-            var results = GetValidationResults(item);
+            var results = GetValidationResults(issuedItem);
 
             // The results.Any part returns true of any object in the results
             // list has a MemberNames property which contains the word "Member"
             // and the others
             Assert.IsTrue(results.Any(v => v.MemberNames.Contains("Member")));
-            Assert.IsTrue(results.Any(v => v.MemberNames.Contains("AccessionId")));
+            Assert.IsTrue(results.Any(v => v.MemberNames.Contains("AccessionRecord")));
             Assert.IsTrue(results.Any(v => v.MemberNames.Contains("IssueDate")));
         }
     }
