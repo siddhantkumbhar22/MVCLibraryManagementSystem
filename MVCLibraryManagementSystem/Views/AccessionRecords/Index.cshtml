@@ -1,0 +1,69 @@
+﻿@model IEnumerable<MVCLibraryManagementSystem.Models.AccessionRecord>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.AccessionRecordId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Item.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateOfReceipt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Source)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.AccessionRecordId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateOfReceipt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Source)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.AccessionRecordId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.AccessionRecordId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.AccessionRecordId })
+        </td>
+    </tr>
+}
+
+</table>
+<div class="panel panel-default">
+    <ul class="list-group">
+        <li class="list-group-item">
+            @Html.ActionLink("Add Book", "Create", "Books", null, new { @class= "text-center" })
+        </li>
+        <li class="list-group-item">
+            <a href="#" class="text-center">Add Other Stuff</a>
+        </li>
+        <li class="list-group-item">
+            <a href="#" class="text-center">Add Other Stuff</a>
+        </li>
+    </ul></div>
