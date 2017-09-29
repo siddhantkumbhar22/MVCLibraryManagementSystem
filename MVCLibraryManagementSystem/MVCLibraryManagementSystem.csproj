@@ -123,7 +123,9 @@
     <Compile Include="DAL\BookService.cs" />
     <Compile Include="DAL\IAccessionRecordService.cs" />
     <Compile Include="DAL\IBookService.cs" />
+    <Compile Include="DAL\IIssuedItemService.cs" />
     <Compile Include="DAL\IItemService.cs" />
+    <Compile Include="DAL\IssuedItemService.cs" />
     <Compile Include="DAL\ItemService.cs" />
     <Compile Include="DAL\LibraryContext.cs" />
     <Compile Include="Global.asax.cs">
