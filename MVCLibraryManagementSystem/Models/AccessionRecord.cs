@@ -10,7 +10,7 @@ namespace MVCLibraryManagementSystem.Models
     {
         public int AccessionRecordId { get; set; }
         [Required]
-        public Item Item { get; set; }
+        public virtual Item Item { get; set; }
         public DateTime DateOfReceipt { get; set; }
         public string Source { get; set; }
         public int Price { get; set; }
