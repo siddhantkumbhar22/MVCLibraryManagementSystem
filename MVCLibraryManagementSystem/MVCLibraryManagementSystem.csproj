@@ -118,12 +118,15 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccessionRecordsController.cs" />
     <Compile Include="Controllers\BooksController.cs" />
+    <Compile Include="Controllers\IssuedItemsController.cs" />
     <Compile Include="Controllers\MembersController.cs" />
     <Compile Include="DAL\AccessionRecordService.cs" />
     <Compile Include="DAL\BookService.cs" />
     <Compile Include="DAL\IAccessionRecordService.cs" />
     <Compile Include="DAL\IBookService.cs" />
+    <Compile Include="DAL\IIssuedItemService.cs" />
     <Compile Include="DAL\IItemService.cs" />
+    <Compile Include="DAL\IssuedItemService.cs" />
     <Compile Include="DAL\ItemService.cs" />
     <Compile Include="DAL\LibraryContext.cs" />
     <Compile Include="Global.asax.cs">
@@ -157,6 +160,22 @@
     <Compile Include="Migrations\201709250458321_AccessionRecord3.Designer.cs">
       <DependentUpon>201709250458321_AccessionRecord3.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709291152129_IssuedItemContainsAccRecord.cs" />
+    <Compile Include="Migrations\201709291152129_IssuedItemContainsAccRecord.Designer.cs">
+      <DependentUpon>201709291152129_IssuedItemContainsAccRecord.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709291157222_IssuedItemAddRequiredFields.cs" />
+    <Compile Include="Migrations\201709291157222_IssuedItemAddRequiredFields.Designer.cs">
+      <DependentUpon>201709291157222_IssuedItemAddRequiredFields.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709291242214_IssuedItemAddIsReturned.cs" />
+    <Compile Include="Migrations\201709291242214_IssuedItemAddIsReturned.Designer.cs">
+      <DependentUpon>201709291242214_IssuedItemAddIsReturned.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709291617008_RenamedIsReturned.cs" />
+    <Compile Include="Migrations\201709291617008_RenamedIsReturned.Designer.cs">
+      <DependentUpon>201709291617008_RenamedIsReturned.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccessionRecord.cs" />
     <Compile Include="Models\Book.cs" />
@@ -189,6 +208,11 @@
     <Content Include="Views\AccessionRecords\Details.cshtml" />
     <Content Include="Views\AccessionRecords\Edit.cshtml" />
     <Content Include="Views\AccessionRecords\Index.cshtml" />
+    <Content Include="Views\IssuedItems\Create.cshtml" />
+    <Content Include="Views\IssuedItems\Delete.cshtml" />
+    <Content Include="Views\IssuedItems\Details.cshtml" />
+    <Content Include="Views\IssuedItems\Edit.cshtml" />
+    <Content Include="Views\IssuedItems\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -220,6 +244,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201709250458321_AccessionRecord3.resx">
       <DependentUpon>201709250458321_AccessionRecord3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709291152129_IssuedItemContainsAccRecord.resx">
+      <DependentUpon>201709291152129_IssuedItemContainsAccRecord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709291157222_IssuedItemAddRequiredFields.resx">
+      <DependentUpon>201709291157222_IssuedItemAddRequiredFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709291242214_IssuedItemAddIsReturned.resx">
+      <DependentUpon>201709291242214_IssuedItemAddIsReturned.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709291617008_RenamedIsReturned.resx">
+      <DependentUpon>201709291617008_RenamedIsReturned.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
