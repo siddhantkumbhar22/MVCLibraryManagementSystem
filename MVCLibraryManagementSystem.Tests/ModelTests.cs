@@ -131,5 +131,17 @@ namespace MVCLibraryManagementSystem.Tests
             Assert.IsTrue(results.Any(v => v.MemberNames.Contains("AccessionRecord")));
             Assert.IsTrue(results.Any(v => v.MemberNames.Contains("IssueDate")));
         }
+
+        [TestMethod]
+        public void TestIssuedItemDefaults()
+        {
+            DateTime currentDate = DateTime.Now.Date;
+
+            IssuedItem issuedItem = new IssuedItem();
+            Assert.AreEqual(currentDate.ToString("dd/MM/yyyy"), issuedItem.IssueDate.ToString("dd/MM/yyyy"));
+
+            Assert.IsFalse(issuedItem.IsReturned);
+            Assert.IsNull(issuedItem.IsLateFeePaid);
+        }
     }
-}
+} 

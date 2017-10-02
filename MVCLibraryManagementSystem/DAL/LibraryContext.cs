@@ -14,12 +14,12 @@ namespace MVCLibraryManagementSystem.DAL
 
         }
 
-        public DbSet<Item> Items { get; set; }
-        public DbSet<Book> Books { get; set; }
-        public DbSet<Newspaper> Newspapers { get; set; }
-        public DbSet<QuestionPaper> QuestionPapers { get; set; }
-        public DbSet<AccessionRecord> AccessionRecords { get; set; }
-        public DbSet<Member> Members { get; set; }
-        public DbSet<IssuedItem> IssuedItems { get; set; }
+        public virtual DbSet<Item> Items { get; set; }
+        public virtual DbSet<Book> Books { get; set; }
+        public virtual DbSet<Newspaper> Newspapers { get; set; }
+        public virtual DbSet<QuestionPaper> QuestionPapers { get; set; }
+        public virtual DbSet<AccessionRecord> AccessionRecords { get; set; }
+        public virtual DbSet<Member> Members { get; set; }
+        public virtual DbSet<IssuedItem> IssuedItems { get; set; }
     }
 }

@@ -37,10 +37,10 @@ namespace MVCLibraryManagementSystem.Tests
 
             issuedItems = new List<IssuedItem>()
             {
-                new IssuedItem() { AccessionRecord = accessionRecords[0], LateFeePerDay = 5, Member = member, IssuedItemId = 20, IsIssued = true },
-                new IssuedItem() { AccessionRecord = accessionRecords[1], LateFeePerDay = 5, Member = member, IssuedItemId = 21, IsIssued = true },
-                new IssuedItem() { AccessionRecord = accessionRecords[2], LateFeePerDay = 5, Member = member, IssuedItemId = 22, IsIssued = true},
-                new IssuedItem() { AccessionRecord = accessionRecords[3], LateFeePerDay = 5, Member = member, IssuedItemId = 23, IsIssued = true },
+                new IssuedItem() { AccessionRecord = accessionRecords[0], LateFeePerDay = 5, Member = member, IssuedItemId = 20, IsReturned = true },
+                new IssuedItem() { AccessionRecord = accessionRecords[1], LateFeePerDay = 5, Member = member, IssuedItemId = 21, IsReturned = true },
+                new IssuedItem() { AccessionRecord = accessionRecords[2], LateFeePerDay = 5, Member = member, IssuedItemId = 22, IsReturned = true},
+                new IssuedItem() { AccessionRecord = accessionRecords[3], LateFeePerDay = 5, Member = member, IssuedItemId = 23, IsReturned = true },
             };
         }
 
@@ -103,7 +103,7 @@ viewResult.Model;
             Assert.IsNotNull(newRecord.IssueDate);
             Assert.IsNotNull(newRecord.AccessionRecord);
             Assert.IsNotNull(newRecord.Member);
-            Assert.IsFalse(newRecord.IsIssued);
+            Assert.IsFalse(newRecord.IsReturned);
         }
 
         /// <summary>
@@ -164,12 +164,20 @@ viewResult.Model;
         }
 
         /// <summary>
-        /// Test that the SetReturned method of the controller updates the model
+        /// Test that the SetReturned method of the controller updates the model. This test needs to be worked on.
         /// </summary>
         [TestMethod]
         public void TestReturnedIsSet()
         {
+            dynamic controller = new IssuedItemsController(mock.Object);
+            mock.Setup(m => m.Update(It.IsAny<IssuedItem>()));
 
+            IssuedItem returnedItem = new IssuedItem() { AccessionRecord = accessionRecords[0], IssuedItemId = 1, LateFeePerDay = 5, IsReturned = false };
+
+            var result = controller.SetReturned(id: 1) as JsonResult;
+            
+            mock.Verify(m => m.Update(It.IsAny<IssuedItem>()), Times.Once);
+            // Assert.IsTrue(result.Data) // or something;
         }
     }
 }

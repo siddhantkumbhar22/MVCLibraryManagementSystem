@@ -22,6 +22,14 @@ namespace MVCLibraryManagementSystem.DAL
             this.accRecordService = _service;
         }
 
+        public IssuedItemService(LibraryContext ctx)
+        {
+            this.dbcontext = ctx;
+            ItemService itemService = new ItemService(dbcontext);
+            this.accRecordService = new AccessionRecordService(dbcontext, itemService);
+        }
+
+
         public List<Models.IssuedItem> GetAllIssuedItems()
         {
 
@@ -51,19 +59,28 @@ namespace MVCLibraryManagementSystem.DAL
             dbcontext.SaveChanges();
         }
 
-        public Models.IssuedItem GetIssuedItemById(int? id)
+        public Models.IssuedItem GetById(int? id)
         {
-            //throw new NotImplementedException();
-            return null;
+            throw new NotImplementedException();
+            
         }
 
 
-        public List<Models.AccessionRecord> GetAllUnissuedAccRecords()
+        public IEnumerable<Models.AccessionRecord> GetAllIssuableAccRecords()
         {
             IEnumerable<AccessionRecord> accRecords = accRecordService.GetAllAccessionRecords();
-            IEnumerable<int> issuedItemIds = GetAllIssuedItems().Select(i => i.AccessionRecord.AccessionRecordId).ToList();
-            
-            return accRecords.Where(ar => issuedItemIds.Contains(ar.AccessionRecordId)).ToList();
+
+            // Get all the acc. records which not returned
+            IEnumerable<AccessionRecord> issuedRecords = this.GetAllIssuedItems().Where(i => i.IsReturned == false).Select(i => i.AccessionRecord);
+
+            var retval = accRecords.Except(issuedRecords);
+
+            return retval; 
+        }
+
+        public void Dispose()
+        {
+            dbcontext.Dispose();
         }
     }
 }
