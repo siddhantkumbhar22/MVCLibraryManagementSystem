@@ -11,6 +11,7 @@ namespace MVCLibraryManagementSystem.Models
         public int AccessionRecordId { get; set; }
         [Required]
         public virtual Item Item { get; set; }
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime DateOfReceipt { get; set; }
         public string Source { get; set; }
         public int Price { get; set; }

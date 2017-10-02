@@ -176,6 +176,14 @@
     <Compile Include="Migrations\201709291617008_RenamedIsReturned.Designer.cs">
       <DependentUpon>201709291617008_RenamedIsReturned.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709301117543_RenamedIsReturnedAgain.cs" />
+    <Compile Include="Migrations\201709301117543_RenamedIsReturnedAgain.Designer.cs">
+      <DependentUpon>201709301117543_RenamedIsReturnedAgain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710021422568_AddIsLateFeePaid.cs" />
+    <Compile Include="Migrations\201710021422568_AddIsLateFeePaid.Designer.cs">
+      <DependentUpon>201710021422568_AddIsLateFeePaid.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccessionRecord.cs" />
     <Compile Include="Models\Book.cs" />
@@ -256,6 +264,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201709291617008_RenamedIsReturned.resx">
       <DependentUpon>201709291617008_RenamedIsReturned.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709301117543_RenamedIsReturnedAgain.resx">
+      <DependentUpon>201709301117543_RenamedIsReturnedAgain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710021422568_AddIsLateFeePaid.resx">
+      <DependentUpon>201710021422568_AddIsLateFeePaid.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
