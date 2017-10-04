@@ -3,67 +3,95 @@
 @{
     ViewBag.Title = "Index";
 }
+<h1>Accession Register</h1>
 
-<h2>Index</h2>
+<!--<p>
+    @Html.ActionLink("Create New" ,"Create")
+    @Html.ActionLink("Index", "Create")
+</p>-->
+<div class="row">
+    <div class="col-md-4">
+        <div class="input-group">
+            <input type="text" class="form-control" name="search" />
+            <span class="input-group-btn">
+                <button type="submit" class="btn btn-primary">GO</button>
+            </span>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Dropdown button
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <ul>
+                    <li><a class="dropdown-item" href="#">Action</a></li>
+                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<br />
+<div class="container-fluid col-md-8 col-sm-6">
+    <table class="table table-striped">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AccessionRecordId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Item.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfReceipt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Source)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th></th>
+        </tr>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.AccessionRecordId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Item.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DateOfReceipt)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Source)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Price)
-        </th>
-        <th></th>
-    </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AccessionRecordId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfReceipt)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Source)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.AccessionRecordId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.AccessionRecordId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.AccessionRecordId })
+                </td>
+            </tr>
+        }
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.AccessionRecordId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DateOfReceipt)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Source)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Price)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.AccessionRecordId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.AccessionRecordId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.AccessionRecordId })
-        </td>
-    </tr>
-}
-
-</table>
-<div class="panel panel-default">
-    <ul class="list-group">
-        <li class="list-group-item">
-            @Html.ActionLink("Add Book", "Create", "Books", null, new { @class= "text-center" })
-        </li>
-        <li class="list-group-item">
-            <a href="#" class="text-center">Add Other Stuff</a>
-        </li>
-        <li class="list-group-item">
-            <a href="#" class="text-center">Add Other Stuff</a>
-        </li>
-    </ul></div>
+    </table>
+</div>
+    
+    <div align="right" class="container-fluid col-md-4 col-sm-6">
+        <ul class="list-group">
+            <li class="text-center list-group-item"><a href="#">New Book</a></li>
+            <li class="text-center list-group-item"><a href="#">New Newspaper</a></li>
+            <li class="text-center list-group-item"><a href="#">Add New Question Papers</a></li>
+            <li class="text-center list-group-item"><a href="#">Add New Magazine</a></li>
+            <li class="text-center list-group-item"><a href="#">Issue Item</a></li>
+            <li class="text-center list-group-item"><a href="#">Reserve Item</a></li>
+        </ul>
+    </div>
