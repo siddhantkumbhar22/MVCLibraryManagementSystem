@@ -76,15 +76,14 @@ namespace MVCLibraryManagementSystem.Tests
         [TestMethod]
         public void TestBookIndexHasSearch()
         {
+            var mock = new Mock<IBookService>();
 
-            //var mock = new Mock<IBookRepository>();
+            mock.Setup(m => m.GetAllBooks()).Returns(books);
 
-            //mock.Setup(m => m.GetAllBooks()).Returns(books);
-
-            //BooksController controller = new BooksController(mock.Object);
-            //var viewResult = controller.Index(searchString: "5") as ViewResult;
-            //List<Book> booksReturned = (List<Book>)viewResult.Model;
-            //Assert.AreEqual(1, booksReturned.Count);
+            dynamic controller = new BooksController(mock.Object);
+            var viewResult = controller.Index(searchString: "5") as ViewResult;
+            List<Book> booksReturned = (List<Book>)viewResult.Model;
+            Assert.AreEqual(1, booksReturned.Count);
         }
 
         /// <summary>
@@ -93,14 +92,15 @@ namespace MVCLibraryManagementSystem.Tests
         [TestMethod]
         public void TestBookIndexHasPagination()
         {
-            //var mock = new Mock<IBookRepository>();
+            var mock = new Mock<IBookService>();
+            
+            mock.Setup(m => m.GetAllBooks()).Returns(books);
 
-            //mock.Setup(m => m.GetAllBooks()).Returns(books);
+            dynamic controller = new BooksController(mock.Object);
+            var viewResult = controller.Index(3) as ViewResult;
+            List<Book> booksReturned = (List<Book>)viewResult.Model;
 
-            // var viewResult = controller.Index(3) as ViewResult;
-            // IEnumerable<Book> booksReturned = (IEnumerable<Book>)viewResult.Model;
-
-            // Assert.AreEqual(10, booksReturned.Count);
+            Assert.AreEqual(10, booksReturned.Count);
 
         }
 
