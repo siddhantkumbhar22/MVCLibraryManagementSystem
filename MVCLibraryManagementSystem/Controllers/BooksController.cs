@@ -10,6 +10,7 @@ using MVCLibraryManagementSystem.DAL;
 using MVCLibraryManagementSystem.Models;
 using MVCLibraryManagementSystem.ViewModels;
 using AutoMapper;
+using PagedList;
 
 namespace MVCLibraryManagementSystem.Controllers
 {
@@ -28,9 +29,17 @@ namespace MVCLibraryManagementSystem.Controllers
         }
 
         // GET: Books
-        public ActionResult Index()
+        public ActionResult Index(int? page=1)
         {
             var books = service.GetAllBooks();
+
+            if (page == null)
+                page = 1;
+
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+
+            books = books.OrderBy(b => b.BookId).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
 
             return View(books);
         }
@@ -51,10 +60,10 @@ namespace MVCLibraryManagementSystem.Controllers
         }
 
         // GET: Books/Create
-        public ActionResult Create()
+        public ActionResult Create(int? page)
         {
             return View();
-        } 
+        }
 
         // POST: Books/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
