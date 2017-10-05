@@ -21,5 +21,12 @@ namespace MVCLibraryManagementSystem.DAL
         /// </summary>
         /// <returns>Acc. Records that aren't in the IssuedItems list</returns>
         IEnumerable<AccessionRecord> GetAllIssuableAccRecords();
+
+        /// <summary>
+        /// Returns a random Accession Record that can be issued to a member.
+        /// </summary>
+        /// <param name="itemid">Item ID of the Item you want to return an Accession Record for</param>
+        /// <returns></returns>
+        AccessionRecord GetRandomIssuableAccRecord(int itemid);
     }
 }

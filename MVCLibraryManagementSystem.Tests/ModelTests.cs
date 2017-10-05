@@ -19,7 +19,7 @@ namespace MVCLibraryManagementSystem.Tests
         /// </summary>
         /// <param name="model">Model to Validate</param>
         /// <returns>List<> containing objects of type ValidationResult</returns>
-        public List<ValidationResult> GetValidationResults(object model)
+        public List<ValidationResult> GetValidationErrorList(object model)
         {
             var results = new List<ValidationResult>();
             var validationContext = new ValidationContext(model, null, null);
@@ -39,7 +39,7 @@ namespace MVCLibraryManagementSystem.Tests
                 Year = 000
             };
 
-            var results = GetValidationResults(item);
+            var results = GetValidationErrorList(item);
             // There should only be one and it should be title
 
             Assert.AreEqual(1, results.Count);
@@ -57,7 +57,7 @@ namespace MVCLibraryManagementSystem.Tests
                 Item = new Item() { Title = "TestBook" }
             };
 
-            var results = GetValidationResults(book);
+            var results = GetValidationErrorList(book);
 
             Assert.AreEqual(0, results.Count);
         }
@@ -73,7 +73,7 @@ namespace MVCLibraryManagementSystem.Tests
                 MemberId = 0
             };
 
-            var results = GetValidationResults(member);
+            var results = GetValidationErrorList(member);
             Debug.WriteLine(results);
             Assert.AreEqual(2, results.Count);
         }
@@ -89,7 +89,7 @@ namespace MVCLibraryManagementSystem.Tests
                 Category = CATEGORIES.ENTERTAINMENT
             };
 
-            var results = GetValidationResults(paper);
+            var results = GetValidationErrorList(paper);
             Assert.AreEqual(2, results.Count);
         }
 
@@ -105,7 +105,7 @@ namespace MVCLibraryManagementSystem.Tests
                 Item = new Item() { Title = "Question Paper" }
             };
 
-            var results = GetValidationResults(paper);
+            var results = GetValidationErrorList(paper);
             Assert.IsTrue(results.Any(v => v.MemberNames.Contains("Month")));
             Assert.IsTrue(results.Any(v => v.MemberNames.Contains("Subject")));
         }
@@ -122,7 +122,7 @@ namespace MVCLibraryManagementSystem.Tests
                 LateFeePerDay = 0
             };
 
-            var results = GetValidationResults(issuedItem);
+            var results = GetValidationErrorList(issuedItem);
 
             // The results.Any part returns true of any object in the results
             // list has a MemberNames property which contains the word "Member"
