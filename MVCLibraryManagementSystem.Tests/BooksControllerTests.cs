@@ -56,7 +56,6 @@ namespace MVCLibraryManagementSystem.Tests
         {
             var mock = new Mock<DAL.IBookService>();
             
-
             mock.Setup(m => m.GetAllBooks()).Returns(books);
             BooksController controller = new BooksController(mock.Object);
 
@@ -69,7 +68,7 @@ namespace MVCLibraryManagementSystem.Tests
         }
 
         /// <summary>
-        /// This code will not compile, however it needs to because Index neads a search searchString
+        /// Index neads a search searchString
         /// Makes sure that only one book is returned because there is only one book where the Title contains
         /// a "5"
         /// </summary>
@@ -87,7 +86,7 @@ namespace MVCLibraryManagementSystem.Tests
         }
 
         /// <summary>
-        /// This code will not compile, however it needs to because Index neads a search searchString
+        /// Test Index has pagination
         /// </summary>
         [TestMethod]
         public void TestBookIndexHasPagination()
@@ -97,11 +96,10 @@ namespace MVCLibraryManagementSystem.Tests
             mock.Setup(m => m.GetAllBooks()).Returns(books);
 
             dynamic controller = new BooksController(mock.Object);
-            var viewResult = controller.Index(3) as ViewResult;
+            var viewResult = controller.Index(page: 3) as ViewResult;
             List<Book> booksReturned = (List<Book>)viewResult.Model;
 
-            Assert.AreEqual(10, booksReturned.Count);
-
+            Assert.IsTrue(booksReturned.Count <= 10);
         }
 
         /// <summary>

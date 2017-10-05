@@ -23,9 +23,10 @@ namespace MVCLibraryManagementSystem.Tests
         List<AccessionRecord> accessionRecords = new List<AccessionRecord>();
         Member member = new Member() { Name = "Test Member", MemberId = 100, MemberType = MEMBERTYPE.FACULTY };
 
-        //TODO:
-        // Test that Service has GetLateFee methods
-
+        // Mock DBSets and LibraryContext to pass to service
+        Mock<DbSet<IssuedItem>> mockSet = new Mock<DbSet<IssuedItem>>();
+        Mock<DbSet<AccessionRecord>> mockARSet = new Mock<DbSet<AccessionRecord>>();
+        Mock<LibraryContext> mockContext = new Mock<LibraryContext>();
 
         [TestInitialize]
         public void Init()
@@ -49,34 +50,15 @@ namespace MVCLibraryManagementSystem.Tests
 
             // Set up Item Mock
             accRecMock.Setup(m => m.GetAllAccessionRecords()).Returns(accessionRecords);
-        }
 
-        [TestMethod]
-        public void TestGetUnIssuedAccRecords()
-        {
-            // This adds an accession record for a copy that is issued, so it should not be in the
-            // list of records that is issued.
-            AccessionRecord issuedRecord = new AccessionRecord() { Item = item, AccessionRecordId = 18 };            
-            AccessionRecord neverIssued = new AccessionRecord() { Item = item, AccessionRecordId = 19 };
-            accessionRecords.Add(issuedRecord);
-            accessionRecords.Add(neverIssued);
-
-            // For this test, we set all issuedItems as "Returned" except 1
-            foreach(var i in issuedItems)
-            {
-                i.IsReturned = true;
-            }
-
-            // And add a new one, where "Returned" = false, i.e. it a member has borrowed it.
-            issuedItems.Add(new IssuedItem() { AccessionRecord = issuedRecord, IsReturned = false });
-
-            // The following, seemingly complicated setup set's up a Mock LibraryContext object. To make sure this is possible, all LibraryContext members were changed to
-            // virtual. mockSet and mockARSet are fake instances of DbSet<IssuedItem> and DbSet<AccessionRecord> which are required by LibraryContext, and the methods in IssuedItemService
-            // So here we set up mockSet and mockARSet, pass it to the Mock Library Context and pass the fake LibraryContext, to IssuedItemService. I know this is a lot of code, but it is
+            // The following, seemingly complicated setup set's up a Mock LibraryContext object. 
+            // To make sure this is possible, all LibraryContext members were changed to
+            // virtual. mockSet and mockARSet are fake instances of DbSet<IssuedItem> and DbSet<AccessionRecord> which are required
+            // by LibraryContext, and the methods in IssuedItemService
+            // So here we set up mockSet and mockARSet, pass it to the Mock Library Context and pass the fake LibraryContext, to
+            // IssuedItemService. I know this is a lot of code, but it is
             // proof that the GetUnIssuedAccRecords() method works which is important because it has some complicated logic.
-            var mockSet = new Mock<DbSet<IssuedItem>>();
-            var mockARSet = new Mock<DbSet<AccessionRecord>>();
-
+            
             mockSet.As<IQueryable<IssuedItem>>().Setup(m => m.Expression).Returns(issuedItems.AsQueryable().Expression);
             mockSet.As<IQueryable<IssuedItem>>().Setup(m => m.ElementType).Returns(issuedItems.AsQueryable().ElementType);
             mockSet.As<IQueryable<IssuedItem>>().Setup(m => m.GetEnumerator()).Returns(issuedItems.AsQueryable().GetEnumerator());
@@ -85,10 +67,30 @@ namespace MVCLibraryManagementSystem.Tests
             mockARSet.As<IQueryable<AccessionRecord>>().Setup(m => m.ElementType).Returns(accessionRecords.AsQueryable().ElementType);
             mockARSet.As<IQueryable<AccessionRecord>>().Setup(m => m.GetEnumerator()).Returns(accessionRecords.AsQueryable().GetEnumerator());
 
-
-            var mockContext = new Mock<LibraryContext>();
             mockContext.SetupGet(m => m.IssuedItems).Returns(mockSet.Object);
             mockContext.SetupGet(m => m.AccessionRecords).Returns(mockARSet.Object);
+        }
+
+        [TestMethod]
+        public void TestGetUnIssuedAccRecords()
+        {
+            // For this test, we set all issuedItems as "Returned"
+            foreach (var i in issuedItems)
+            {
+                i.IsReturned = true;
+            }
+
+            // This adds an accession record for a copy that is issued
+            AccessionRecord issuedRecord = new AccessionRecord() { Item = item, AccessionRecordId = 18 };
+            accessionRecords.Add(issuedRecord);
+
+            // And add a new one, where "Returned" = false, i.e. it a member has borrowed it.
+            // i.e, a member borrows the new copy, hence isReturned = false
+            AccessionRecord neverIssued = new AccessionRecord() { Item = item, AccessionRecordId = 19 };
+            accessionRecords.Add(neverIssued);
+            // Now we add an issuedItem which is borrowed. We're simulating a situation where all Items are returned,
+            // and a member borrows one Item (whose Acc. Record is issuedRecord).
+            issuedItems.Add(new IssuedItem() { AccessionRecord = issuedRecord, IsReturned = false });
 
             var service = new IssuedItemService(mockContext.Object);
 
@@ -102,6 +104,23 @@ namespace MVCLibraryManagementSystem.Tests
             Assert.IsTrue(recordIds.Contains(neverIssued.AccessionRecordId));
             // Assert that the returned Acession Record is NOT included
             Assert.IsFalse(recordIds.Contains(issuedRecord.AccessionRecordId));
+        }
+
+        /// <summary>
+        /// Tests that the GetRandomIssuableAccRecord, gets a random accession record which is issuable and
+        /// whose ItemId is 1.
+        /// </summary>
+        [TestMethod]
+        public void TestGetRandomIssuableAccRecord()
+        {
+            dynamic service = new IssuedItemService(mockContext.Object);
+            // For this test, we set all issuedItems as "Returned"
+            foreach (var i in issuedItems)
+            {
+                i.IsReturned = true;
+            }
+            AccessionRecord ar = service.GetRandomIssuableAccRecord(itemid: 1);
+            Assert.AreEqual(1, ar.Item.ItemId);
         }
 
         [TestMethod]

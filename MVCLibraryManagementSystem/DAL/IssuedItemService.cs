@@ -10,6 +10,7 @@ namespace MVCLibraryManagementSystem.DAL
     {
         private LibraryContext dbcontext = new LibraryContext();
         private IAccessionRecordService accRecordService;
+        private IMemberService memberService;
 
         public IssuedItemService()
         {
@@ -76,6 +77,17 @@ namespace MVCLibraryManagementSystem.DAL
             var retval = accRecords.Except(issuedRecords);
 
             return retval; 
+        }
+
+        public AccessionRecord GetRandomIssuableAccRecord(int itemid)
+        {
+            IEnumerable<AccessionRecord> list = this.GetAllIssuableAccRecords();
+
+            int maxRecords = list.Count() - 1;
+            Random rnd = new Random();
+            int randomIndex = rnd.Next(0, maxRecords);
+            AccessionRecord retval = list.ElementAt(randomIndex);
+            return retval;
         }
 
         public void Dispose()

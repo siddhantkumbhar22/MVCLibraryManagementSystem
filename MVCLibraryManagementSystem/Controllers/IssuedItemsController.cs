@@ -16,11 +16,19 @@ namespace MVCLibraryManagementSystem.Controllers
         private LibraryContext db = new LibraryContext();
 
         public IIssuedItemService service;
+        public IMemberService memberService;
 
         public IssuedItemsController(IIssuedItemService _service)
         {
             service = _service;
         }
+
+        public IssuedItemsController(IIssuedItemService _service, IMemberService _mservice)
+        {
+            service = _service;
+            memberService = _mservice;
+        }
+
 
         // GET: IssuedItems
         public ActionResult Index()

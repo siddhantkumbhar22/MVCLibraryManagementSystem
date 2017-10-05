@@ -94,7 +94,7 @@ namespace MVCLibraryManagementSystem.Tests
         public void TestCreateHasProperModel()
         {
             AccessionRecordsController controller = new AccessionRecordsController(mock.Object);
-            var result = controller.Create(1) as ViewResult;
+            var result = controller.Create(itemid: 1) as ViewResult;
             var newRecord = result.Model as AccessionRecord;
 
             Assert.IsNotNull(newRecord.Item);

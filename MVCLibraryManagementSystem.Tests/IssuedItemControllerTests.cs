@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using System.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MVCLibraryManagementSystem.Models;
 using MVCLibraryManagementSystem.Controllers;
@@ -12,8 +13,8 @@ namespace MVCLibraryManagementSystem.Tests
     [TestClass]
     public class IssuedItemControllerTests
     {
-        Mock<IIssuedItemService> mock = new Mock<IIssuedItemService
->();
+        Mock<IIssuedItemService> mock = new Mock<IIssuedItemService>();
+
         List<IssuedItem> issuedItems = new List<IssuedItem>();
 
         Item item = new Item() { Title = "Item To Issue", ItemId = 1 };
@@ -69,8 +70,9 @@ viewResult.Model;
 
         /// <summary>
         /// Test that the Create method requires an Item ID. The behaviour of the Create action (both GET and POST) should be that it takes an Item ID 
-        /// and creates a selects Accession Record that is NOT already issued. To do this, the IIssuedItemService class should implement a method that
-        /// returns an random accession record that isn't in the already issued list. The Test for this, should be in will be in it's own TestClass
+        /// and creates and selects Accession Record that is NOT already issued. To do this, the IIssuedItemService class should implement a method that
+        /// returns a random accession record that isn't in the already issued list. The Test for this, should be in will be in it's own TestClass
+        /// See TestCreateWorks()
         /// </summary>
         [TestMethod]
         public void TestCreateTakesItemId()
@@ -86,10 +88,15 @@ viewResult.Model;
         [TestMethod]
         public void TestCreateWorks()
         {
+            // Set up a fake GetRandomIssuableAccRecord() and make sure it's called.
+            // smock.Setup(m => m.GetRandomIssuableAccRecord()).Returns(accessionRecords[0]);
             var controller = new IssuedItemsController(mock.Object);
             IssuedItem toAdd = new IssuedItem { AccessionRecord = accessionRecords[0], Member = member, IssuedItemId = 15, IssueDate = DateTime.Now.Date };
 
             controller.Create(toAdd);
+            // Make sure that the Create method calls a GetAllIssueableAccRecords()
+            mock.Verify(m => m.GetRandomIssuableAccRecord(It.IsAny<int>()), Times.Once);
+            // Test that it calls the service.Add() method, which it doesn't by default
             mock.Verify(m => m.Add(It.IsAny<IssuedItem>()), Times.Once);
         }
 
@@ -97,13 +104,39 @@ viewResult.Model;
         public void TestCreateHasProperModel()
         {
             dynamic controller = new IssuedItemsController(mock.Object);
-            var result = controller.Create(10) as ViewResult;
+            var result = controller.Create(itemid: 10) as ViewResult;
             var newRecord = result.Model as IssuedItem;
 
             Assert.IsNotNull(newRecord.IssueDate);
             Assert.IsNotNull(newRecord.AccessionRecord);
             Assert.IsNotNull(newRecord.Member);
             Assert.IsFalse(newRecord.IsReturned);
+        }
+
+        /// <summary>
+        /// Test that the Create method that runs on POST, creates an error if a member with the specific id does not exist
+        /// with ModelState.AddModelErrors()
+        /// </summary>
+        [TestMethod]
+        public void TestCreateChecksMemberId()
+        {
+            var memberServiceMock = new Mock<IMemberService>();
+            
+            dynamic controller = new IssuedItemsController(mock.Object, memberServiceMock.Object);
+
+            IssuedItem itemToValidate = new IssuedItem()
+            {
+                AccessionRecord = accessionRecords[0],
+                IssueDate = DateTime.Now.Date,
+                Member = new Member() { MemberId = -1 }
+            };
+
+            var result = controller.Create(itemToValidate) as ViewResult;
+
+            // Make sure create calls GetMemberById
+            memberServiceMock.Verify(m => m.GetMemberById(It.IsAny<int?>()), Times.Once);
+            // Make sure that errors for the Member field exist
+            Assert.IsNotNull(result.ViewData.ModelState["Member"].Errors);
         }
 
         /// <summary>
@@ -164,7 +197,8 @@ viewResult.Model;
         }
 
         /// <summary>
-        /// Test that the SetReturned method of the controller updates the model. This test needs to be worked on.
+        /// Test that the SetReturned method of the controller updates the model and redirects to the same View
+        /// An IssuedItem can be set as "Returned" from details, according to this test.
         /// </summary>
         [TestMethod]
         public void TestReturnedIsSet()
@@ -172,12 +206,42 @@ viewResult.Model;
             dynamic controller = new IssuedItemsController(mock.Object);
             mock.Setup(m => m.Update(It.IsAny<IssuedItem>()));
 
-            IssuedItem returnedItem = new IssuedItem() { AccessionRecord = accessionRecords[0], IssuedItemId = 1, LateFeePerDay = 5, IsReturned = false };
-
-            var result = controller.SetReturned(id: 1) as JsonResult;
+            var result = controller.SetReturned(id: 1) as RedirectToRouteResult;
             
             mock.Verify(m => m.Update(It.IsAny<IssuedItem>()), Times.Once);
-            // Assert.IsTrue(result.Data) // or something;
+            Assert.AreEqual("Details", result.RouteValues["action"]);
+        }
+
+        /// <summary>
+        /// Tests that the SetDateReturned method exits and redirects back to Details when it is done.
+        /// This should be called from the Details page
+        /// </summary>
+        [TestMethod]
+        public void TestDateReturnedIsSet()
+        {
+            dynamic controller = new IssuedItemsController(mock.Object);
+            mock.Setup(m => m.Update(It.IsAny<IssuedItem>()));
+
+            var result = controller.SetDateReturned(id: 1) as RedirectToRouteResult;
+
+            mock.Verify(m => m.Update(It.IsAny<IssuedItem>()), Times.Once);
+            Assert.AreEqual("Details", result.RouteValues["action"]);
+        }
+
+        /// <summary>
+        /// Tests that the SetLateFeePaid method exists and redirects back to Details when it is done.
+        /// This should be called from the Details page
+        /// </summary>
+        [TestMethod]
+        public void TestSetLateFeePaid()
+        {
+            dynamic controller = new IssuedItemsController(mock.Object);
+            mock.Setup(m => m.Update(It.IsAny<IssuedItem>()));
+
+            var result = controller.SetDateReturned(id: 1) as RedirectToRouteResult;
+
+            mock.Verify(m => m.Update(It.IsAny<IssuedItem>()), Times.Once);
+            Assert.AreEqual("Details", result.RouteValues["action"]);
         }
     }
 }
