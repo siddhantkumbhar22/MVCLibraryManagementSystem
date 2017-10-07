@@ -10,7 +10,6 @@ using MVCLibraryManagementSystem.DAL;
 using MVCLibraryManagementSystem.Models;
 using MVCLibraryManagementSystem.ViewModels;
 using AutoMapper;
-using PagedList;
 
 namespace MVCLibraryManagementSystem.Controllers
 {
@@ -29,9 +28,14 @@ namespace MVCLibraryManagementSystem.Controllers
         }
 
         // GET: Books
-        public ActionResult Index(int? page=1)
+        public ActionResult Index(string searchString="", int? page=1)
         {
             var books = service.GetAllBooks();
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                books = books.Where(b => b.Item.Title.Contains(searchString));
+            }
 
             if (page == null)
                 page = 1;
@@ -107,7 +111,7 @@ namespace MVCLibraryManagementSystem.Controllers
             if (ModelState.IsValid)
             {
                 service.Update(book);
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = book.BookId });
             }
             return View(book);
         }
