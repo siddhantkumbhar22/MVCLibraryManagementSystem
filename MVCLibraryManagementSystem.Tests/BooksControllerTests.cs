@@ -112,7 +112,7 @@ namespace MVCLibraryManagementSystem.Tests
 
             int id = 3;
 
-            mock.Setup(m => m.GetBookById((int)It.Is<Int32>(i => i == id))).Returns(books.Find(b => b.BookId == id));
+            mock.Setup(m => m.GetBookById(It.Is<Int32>(i => i == id))).Returns(books.Find(b => b.BookId == id));
            
             BooksController controller = new BooksController(mock.Object);
 
