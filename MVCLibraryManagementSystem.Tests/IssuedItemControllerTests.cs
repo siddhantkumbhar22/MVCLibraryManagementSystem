@@ -60,7 +60,7 @@ viewResult.Model;
 
             // Note: I suppose this should only check against required properties,
             // but maybe checking all properties is a better idea, I don't know.
-            foreach(var issuedItem in recordsReturned)
+            foreach (var issuedItem in recordsReturned)
             {
                 Assert.IsNotNull(issuedItem.IssueDate);
                 Assert.IsNotNull(issuedItem.Member);
@@ -121,7 +121,7 @@ viewResult.Model;
         public void TestCreateChecksMemberId()
         {
             var memberServiceMock = new Mock<IMemberService>();
-            
+
             dynamic controller = new IssuedItemsController(mock.Object, memberServiceMock.Object);
 
             IssuedItem itemToValidate = new IssuedItem()
@@ -148,10 +148,13 @@ viewResult.Model;
         [TestMethod]
         public void TestIndexHasSearch()
         {
+            var mock = new Mock<IIssuedItemService>();
+            mock.Setup(m => m.GetAllIssuedItems()).Returns(issuedItems);
+
             dynamic controller = new IssuedItemsController(mock.Object);
-            var viewResult = controller.index(searchString: "Test") as ViewResult;
+            var viewResult = controller.Index(searchString: "Test") as ViewResult;
             List<IssuedItem> recordsReturned = (List<IssuedItem>)viewResult.Model;
-            List<IssuedItem> allRecords = (List<IssuedItem>)mock.Object.GetAllIssuedItems();
+            List<IssuedItem> allRecords = mock.Object.GetAllIssuedItems();
 
             CollectionAssert.IsSubsetOf(recordsReturned, allRecords);
         }
@@ -162,10 +165,13 @@ viewResult.Model;
         [TestMethod]
         public void TestIndexHasPagination()
         {
+            var mock = new Mock<IIssuedItemService>();
+            mock.Setup(m => m.GetAllIssuedItems()).Returns(issuedItems);
+
             dynamic controller = new IssuedItemsController(mock.Object);
-            var viewResult = controller.index(page: 3) as ViewResult;
+            var viewResult = controller.Index(page: 3) as ViewResult;
             List<IssuedItem> recordsReturned = (List<IssuedItem>)viewResult.Model;
-            List<IssuedItem> allRecords = (List<IssuedItem>)mock.Object.GetAllIssuedItems();
+            List<IssuedItem> allRecords = mock.Object.GetAllIssuedItems();
 
             Assert.IsTrue(recordsReturned.Count <= 10);
         }
@@ -185,7 +191,7 @@ viewResult.Model;
             Assert.IsNotNull(model.IssueDate);
         }
 
-        
+
         [TestMethod]
         public void TestEditCallsUpdate()
         {
@@ -207,7 +213,7 @@ viewResult.Model;
             mock.Setup(m => m.Update(It.IsAny<IssuedItem>()));
 
             var result = controller.SetReturned(id: 1) as RedirectToRouteResult;
-            
+
             mock.Verify(m => m.Update(It.IsAny<IssuedItem>()), Times.Once);
             Assert.AreEqual("Details", result.RouteValues["action"]);
         }
