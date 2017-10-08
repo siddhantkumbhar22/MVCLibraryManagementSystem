@@ -45,12 +45,10 @@ namespace MVCLibraryManagementSystem.Controllers
                               .Where(i => i.AccessionRecord.Item.Title.Contains(searchString))
                               .ToList();
             }
-
             //Search code ends
 
+
             //Pagination code starts
-
-
             if (page == null)
             {
                 page = 1;
@@ -60,12 +58,8 @@ namespace MVCLibraryManagementSystem.Controllers
             int pageNumber = (page ?? 1);
 
             issuedItems = issuedItems.OrderBy(i => i.IssuedItemId).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
-
             //Pagination code ends
 
-            //Search code starts
-
-            //Search code ends
             return View(issuedItems);
         }
 

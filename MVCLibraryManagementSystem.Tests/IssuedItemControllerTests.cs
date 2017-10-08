@@ -38,11 +38,14 @@ namespace MVCLibraryManagementSystem.Tests
 
             issuedItems = new List<IssuedItem>()
             {
-                new IssuedItem() { AccessionRecord = accessionRecords[0], LateFeePerDay = 5, Member = member, IssuedItemId = 20, IsReturned = true },
-                new IssuedItem() { AccessionRecord = accessionRecords[1], LateFeePerDay = 5, Member = member, IssuedItemId = 21, IsReturned = true },
-                new IssuedItem() { AccessionRecord = accessionRecords[2], LateFeePerDay = 5, Member = member, IssuedItemId = 22, IsReturned = true},
-                new IssuedItem() { AccessionRecord = accessionRecords[3], LateFeePerDay = 5, Member = member, IssuedItemId = 23, IsReturned = true },
+                new IssuedItem() { AccessionRecord = accessionRecords[0], LateFeePerDay = 5, Member = member, IssuedItemId = 20, IsReturned = true, IssueDate = DateTime.Now },
+                new IssuedItem() { AccessionRecord = accessionRecords[1], LateFeePerDay = 5, Member = member, IssuedItemId = 21, IsReturned = true, IssueDate = DateTime.Now },
+                new IssuedItem() { AccessionRecord = accessionRecords[2], LateFeePerDay = 5, Member = member, IssuedItemId = 22, IsReturned = true, IssueDate = DateTime.Now},
+                new IssuedItem() { AccessionRecord = accessionRecords[3], LateFeePerDay = 5, Member = member, IssuedItemId = 23, IsReturned = true, IssueDate = DateTime.Now},
             };
+
+            mock = new Mock<IIssuedItemService>();
+            mock.Setup(m => m.GetAllIssuedItems()).Returns(issuedItems);
         }
 
         /// <summary>
@@ -53,7 +56,7 @@ namespace MVCLibraryManagementSystem.Tests
         {
             IssuedItemsController controller = new IssuedItemsController(mock.Object);
 
-            var viewResult = controller.Index() as ViewResult;
+            var viewResult = controller.Index(searchString: "") as ViewResult;
 
             IEnumerable<IssuedItem> recordsReturned = (IEnumerable<IssuedItem>)
 viewResult.Model;
@@ -148,9 +151,6 @@ viewResult.Model;
         [TestMethod]
         public void TestIndexHasSearch()
         {
-            var mock = new Mock<IIssuedItemService>();
-            mock.Setup(m => m.GetAllIssuedItems()).Returns(issuedItems);
-
             dynamic controller = new IssuedItemsController(mock.Object);
             var viewResult = controller.Index(searchString: "Test") as ViewResult;
             List<IssuedItem> recordsReturned = (List<IssuedItem>)viewResult.Model;
@@ -165,9 +165,6 @@ viewResult.Model;
         [TestMethod]
         public void TestIndexHasPagination()
         {
-            var mock = new Mock<IIssuedItemService>();
-            mock.Setup(m => m.GetAllIssuedItems()).Returns(issuedItems);
-
             dynamic controller = new IssuedItemsController(mock.Object);
             var viewResult = controller.Index(page: 3) as ViewResult;
             List<IssuedItem> recordsReturned = (List<IssuedItem>)viewResult.Model;
