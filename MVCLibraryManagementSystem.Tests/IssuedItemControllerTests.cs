@@ -38,11 +38,14 @@ namespace MVCLibraryManagementSystem.Tests
 
             issuedItems = new List<IssuedItem>()
             {
-                new IssuedItem() { AccessionRecord = accessionRecords[0], LateFeePerDay = 5, Member = member, IssuedItemId = 20, IsReturned = true },
-                new IssuedItem() { AccessionRecord = accessionRecords[1], LateFeePerDay = 5, Member = member, IssuedItemId = 21, IsReturned = true },
-                new IssuedItem() { AccessionRecord = accessionRecords[2], LateFeePerDay = 5, Member = member, IssuedItemId = 22, IsReturned = true},
-                new IssuedItem() { AccessionRecord = accessionRecords[3], LateFeePerDay = 5, Member = member, IssuedItemId = 23, IsReturned = true },
+                new IssuedItem() { AccessionRecord = accessionRecords[0], LateFeePerDay = 5, Member = member, IssuedItemId = 20, IsReturned = true, IssueDate = DateTime.Now },
+                new IssuedItem() { AccessionRecord = accessionRecords[1], LateFeePerDay = 5, Member = member, IssuedItemId = 21, IsReturned = true, IssueDate = DateTime.Now },
+                new IssuedItem() { AccessionRecord = accessionRecords[2], LateFeePerDay = 5, Member = member, IssuedItemId = 22, IsReturned = true, IssueDate = DateTime.Now},
+                new IssuedItem() { AccessionRecord = accessionRecords[3], LateFeePerDay = 5, Member = member, IssuedItemId = 23, IsReturned = true, IssueDate = DateTime.Now},
             };
+
+            mock = new Mock<IIssuedItemService>();
+            mock.Setup(m => m.GetAllIssuedItems()).Returns(issuedItems);
         }
 
         /// <summary>
@@ -53,14 +56,14 @@ namespace MVCLibraryManagementSystem.Tests
         {
             IssuedItemsController controller = new IssuedItemsController(mock.Object);
 
-            var viewResult = controller.Index() as ViewResult;
+            var viewResult = controller.Index(searchString: "") as ViewResult;
 
             IEnumerable<IssuedItem> recordsReturned = (IEnumerable<IssuedItem>)
 viewResult.Model;
 
             // Note: I suppose this should only check against required properties,
             // but maybe checking all properties is a better idea, I don't know.
-            foreach(var issuedItem in recordsReturned)
+            foreach (var issuedItem in recordsReturned)
             {
                 Assert.IsNotNull(issuedItem.IssueDate);
                 Assert.IsNotNull(issuedItem.Member);
@@ -121,7 +124,7 @@ viewResult.Model;
         public void TestCreateChecksMemberId()
         {
             var memberServiceMock = new Mock<IMemberService>();
-            
+
             dynamic controller = new IssuedItemsController(mock.Object, memberServiceMock.Object);
 
             IssuedItem itemToValidate = new IssuedItem()
@@ -149,9 +152,9 @@ viewResult.Model;
         public void TestIndexHasSearch()
         {
             dynamic controller = new IssuedItemsController(mock.Object);
-            var viewResult = controller.index(searchString: "Test") as ViewResult;
+            var viewResult = controller.Index(searchString: "Test") as ViewResult;
             List<IssuedItem> recordsReturned = (List<IssuedItem>)viewResult.Model;
-            List<IssuedItem> allRecords = (List<IssuedItem>)mock.Object.GetAllIssuedItems();
+            List<IssuedItem> allRecords = mock.Object.GetAllIssuedItems();
 
             CollectionAssert.IsSubsetOf(recordsReturned, allRecords);
         }
@@ -163,9 +166,9 @@ viewResult.Model;
         public void TestIndexHasPagination()
         {
             dynamic controller = new IssuedItemsController(mock.Object);
-            var viewResult = controller.index(page: 3) as ViewResult;
+            var viewResult = controller.Index(page: 3) as ViewResult;
             List<IssuedItem> recordsReturned = (List<IssuedItem>)viewResult.Model;
-            List<IssuedItem> allRecords = (List<IssuedItem>)mock.Object.GetAllIssuedItems();
+            List<IssuedItem> allRecords = mock.Object.GetAllIssuedItems();
 
             Assert.IsTrue(recordsReturned.Count <= 10);
         }
@@ -185,7 +188,7 @@ viewResult.Model;
             Assert.IsNotNull(model.IssueDate);
         }
 
-        
+
         [TestMethod]
         public void TestEditCallsUpdate()
         {
@@ -207,7 +210,7 @@ viewResult.Model;
             mock.Setup(m => m.Update(It.IsAny<IssuedItem>()));
 
             var result = controller.SetReturned(id: 1) as RedirectToRouteResult;
-            
+
             mock.Verify(m => m.Update(It.IsAny<IssuedItem>()), Times.Once);
             Assert.AreEqual("Details", result.RouteValues["action"]);
         }

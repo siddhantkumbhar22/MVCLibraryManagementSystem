@@ -31,9 +31,36 @@ namespace MVCLibraryManagementSystem.Controllers
 
 
         // GET: IssuedItems
-        public ActionResult Index()
+        //public ActionResult Index()
+        // Index(page: 3)
+        // Index(searchString: "")
+        public ActionResult Index(String searchString = "", int? page = 1)
         {
-            return View(db.IssuedItems.ToList());
+            var issuedItems = service.GetAllIssuedItems();
+
+            //Search code starts
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                issuedItems = issuedItems
+                              .Where(i => i.AccessionRecord.Item.Title.Contains(searchString))
+                              .ToList();
+            }
+            //Search code ends
+
+
+            //Pagination code starts
+            if (page == null)
+            {
+                page = 1;
+            }
+
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+
+            issuedItems = issuedItems.OrderBy(i => i.IssuedItemId).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+            //Pagination code ends
+
+            return View(issuedItems);
         }
 
         // GET: IssuedItems/Details/5
@@ -54,6 +81,7 @@ namespace MVCLibraryManagementSystem.Controllers
         // GET: IssuedItems/Create
         public ActionResult Create()
         {
+
             return View();
         }
 
