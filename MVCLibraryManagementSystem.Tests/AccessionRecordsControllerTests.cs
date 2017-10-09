@@ -11,6 +11,7 @@ using MVCLibraryManagementSystem.Controllers;
 using Moq;
 using System.Web.Routing;
 
+
 namespace MVCLibraryManagementSystem.Tests
 {
     [TestClass]
@@ -28,15 +29,17 @@ namespace MVCLibraryManagementSystem.Tests
             Item item = new Item() {Title = "TestItem", ItemId = 1 };
             accessionRecords = new List<AccessionRecord>()
             {
-                new AccessionRecord() {Item = item, AccessionRecordId = 10},
+                new AccessionRecord() {Item = item,AccessionRecordId= 10},
                 new AccessionRecord() {Item = item, AccessionRecordId = 11},
                 new AccessionRecord() {Item = item, AccessionRecordId = 12},
                 new AccessionRecord() {Item = item, AccessionRecordId = 13}
             };
 
+
             mock.Setup(m => m.GetItemService().GetItemById(It.IsAny<Int32>())).Returns(new Item { Title = "Test", ItemId = 1 });
             mock.Setup(m => m.GetAllAccessionRecords()).Returns(accessionRecords);
-        }
+            mock.Setup(m => m.GetAccessionRecordById(It.IsAny<int?>())).Returns(accessionRecords[0]);      
+                }
 
         /// <summary>
         /// By default the AccessionRecords Index view doesn't list items. This makes sure it does

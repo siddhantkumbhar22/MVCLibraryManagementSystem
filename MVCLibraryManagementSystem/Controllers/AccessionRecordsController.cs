@@ -25,8 +25,23 @@ namespace MVCLibraryManagementSystem.Controllers
         }
 
         // GET: AccessionRecords
-        public ActionResult Index()
+        public ActionResult Index(String searchString ="",int? page=1)
         {
+            var accRecords = service.GetAllAccessionRecords();
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                accRecords = accRecords.Where(b => b.Item.Title.Contains(searchString));
+            }
+
+            if (page == null)
+                page = 1;
+
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+
+            accRecords = accRecords.OrderBy(ar => ar.AccessionRecordId).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+            
             return View(service.GetAllAccessionRecords().ToList());
         }
 
