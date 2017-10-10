@@ -18,6 +18,11 @@ namespace MVCLibraryManagementSystem.Controllers
         public IIssuedItemService service;
         public IMemberService memberService;
 
+        public IssuedItemsController()
+        {
+            service = new IssuedItemService();
+            memberService = new MemberService(db);
+        }
         public IssuedItemsController(IIssuedItemService _service)
         {
             service = _service;
@@ -79,10 +84,14 @@ namespace MVCLibraryManagementSystem.Controllers
         }
 
         // GET: IssuedItems/Create
-        public ActionResult Create()
+        public ActionResult Create(int? itemid)
         {
-
-            return View();
+            IssuedItem newRecord = new IssuedItem();
+            int id = itemid ?? -1;
+            newRecord.AccessionRecord = service.GetRandomIssuableAccRecord(id);
+            newRecord.IssueDate = DateTime.Now.Date;
+            newRecord.IsReturned = false;
+            return View(newRecord);
         }
 
         // POST: IssuedItems/Create
@@ -94,8 +103,8 @@ namespace MVCLibraryManagementSystem.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.IssuedItems.Add(issuedItem);
-                db.SaveChanges();
+             
+
                 return RedirectToAction("Index");
             }
 
@@ -157,6 +166,20 @@ namespace MVCLibraryManagementSystem.Controllers
             db.IssuedItems.Remove(issuedItem);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SetReturned()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SetDateReturned()
+        {
+            return View();
         }
 
         protected override void Dispose(bool disposing)
