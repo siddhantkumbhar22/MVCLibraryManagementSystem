@@ -21,13 +21,5 @@ namespace MVCLibraryManagementSystem.ViewModels
         public int LateFeePerDay { get; set; }
         public bool IsReturned { get; set; }
         public bool? IsLateFeePaid { get; set; }
-
-
-        public IssuedItem()
-        {
-            IssueDate = DateTime.Now.Date;
-            IsReturned = false;
-            IsLateFeePaid = null;
-        }
     }
 }
