@@ -115,9 +115,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\AutoMapperConfig.cs" />
+    <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Auth\LibrarySignInManager.cs" />
+    <Compile Include="Auth\LibraryUserManager.cs" />
     <Compile Include="Controllers\AccessionRecordsController.cs" />
+    <Compile Include="Controllers\AccountsController.cs" />
     <Compile Include="Controllers\BooksController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IssuedItemsController.cs" />
     <Compile Include="Controllers\MembersController.cs" />
     <Compile Include="DAL\AccessionRecordService.cs" />
@@ -138,6 +143,7 @@
     <Compile Include="Models\Book.cs" />
     <Compile Include="Models\IssuedItem.cs" />
     <Compile Include="Models\Item.cs" />
+    <Compile Include="Models\LibraryUser.cs" />
     <Compile Include="Models\Member.cs" />
     <Compile Include="Models\Newspaper.cs" />
     <Compile Include="Models\QuestionPaper.cs" />
