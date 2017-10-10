@@ -5,7 +5,6 @@
 @{
     ViewBag.Title = "Index";
 }
-
 <doctype html>
     <html>
     <head>
@@ -17,24 +16,59 @@
     </head>
     <body>
         <div class="container-fluid">
-            <div align="center"><h1>Dashboard</h1></div>
-            <div class="row container-fluid">
-                <div class="col-lg-4" style="background-color:white;height:200px;width:300px;margin-left:200px;border-style:solid;border-color:lightblue;margin-right:100px; box-shadow:10px 10px 5px #888888">
-                    <div align="center"><h1>Accession Records</h1></div><div align="center"><button id="button1">GOTO</button></div>
-                </div>
-                        <div class="col-lg-4" style="background-color:white;height:200px;width:300px;border-style:solid;margin-bottom:35px;border-color:lightblue; box-shadow:10px 10px 5px #888888">
-                    <div align="center"><h1>Books</h1></div><div align="center"><br /><button id="button2">GOTO</button></div>
-                </div>
-            
-           </div>
-            <div class="row container-fluid">
-                <div class="col-lg-4" style="background-color:white;height:200px;width:300px;margin-left:200px;border-style:solid;border-color:lightblue;margin-right:100px; box-shadow:10px 10px 5px #888888">
-                    <div align="center"><h1>Members</h1></div><div align="center"><br /><button id="button3">GOTO</button></div>
-                </div>
-                    <div class="col-lg-4" style="background-color:white;height:200px;width:300px;border-style:solid;border-color:lightblue; box-shadow:10px 10px 5px #888888">
-                        <div align="center"><h1>Issued Items</h1></div><div align="center"><br /><button id="button4">GOTO</button></div>
+            <h1 class="text-center">Dashboard</h1>
+            <!-- BEGIN ROW -->
+            <div class="row">
+                <div class="col-md-3 col-sm-3"></div>
+                <!--- BEGIN CARD -->
+                <div class="col-md-3 col-sm-3 card">
+                    <h1 class="card-header">
+                        Accession Register
+                    </h1>
+                    <div class="text-center">
+                        <a href="~/Views/AccessionRecords/Index.cshtml" class="btn btn-primary go-btn">GO!</a>
                     </div>
+                </div>
+                <!-- END CARD -->
+                <!--- BEGIN CARD -->
+                <div class="col-md-3 col-sm-3 card">
+                    <h1 class="card-header">
+                        Accession Register
+                    </h1>
+                    <div class="text-center">
+                        <a href="~/Views/AccessionRecords/Index.cshtml" class="btn btn-primary go-btn">GO!</a>
+                    </div>
+                </div>
+                <!-- END CARD -->
+                <div class="col-md-3 col-sm-3"></div>
             </div>
+            <!-- END ROW -->
+            <!-- BEGIN ROW -->
+            <div class="row">
+                <div class="col-md-3 col-sm-3"></div>
+                <!--- BEGIN CARD -->
+                <div class="col-md-3 col-sm-3 card">
+                    <h1 class="card-header">
+                        Accession Register
+                    </h1>
+                    <div class="text-center">
+                        <a href="~/Views/AccessionRecords/Index.cshtml" class="btn btn-primary go-btn">GO!</a>
+                    </div>
+                </div>
+                <!-- END CARD -->
+                <!--- BEGIN CARD -->
+                <div class="col-md-3 col-sm-3 card">
+                    <h1 class="card-header">
+                        Accession Register
+                    </h1>
+                    <div class="text-center">
+                        <a href="~/Views/AccessionRecords/Index.cshtml" class="btn btn-primary go-btn">GO!</a>
+                    </div>
+                </div>
+                <!-- END CARD -->
+                <div class="col-md-3 col-sm-3"></div>
             </div>
+            <!-- END ROW -->
+        </div>
     </body>
 </html>
