@@ -4,12 +4,13 @@ using System.Linq;
 using System.Web;
 using System.Data.Entity;
 using MVCLibraryManagementSystem.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace MVCLibraryManagementSystem.DAL
 {
-    public class LibraryContext : DbContext
+    public class LibraryContext : IdentityDbContext<LibraryUser>
     {
-        public LibraryContext() : base("Library")
+        public LibraryContext() : base("name=Library")
         {
 
         }
