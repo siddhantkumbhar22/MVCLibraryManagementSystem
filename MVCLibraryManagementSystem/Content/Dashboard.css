@@ -1,0 +1,19 @@
+﻿.card {
+    background-color:white;
+    height:200px;
+    width:324px;
+    box-shadow: 6px 6px 20px lightgrey;
+    margin: 15px 15px 15px 0px;
+}
+
+.card-header {
+    height: 126px;
+    width: 162px;
+    text-align: center;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.go-btn {
+    width: 100%;
+}
